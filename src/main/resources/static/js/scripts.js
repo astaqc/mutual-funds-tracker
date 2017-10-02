@@ -39,7 +39,6 @@ var datasets;
                 legend: false,
                 responsive: true,
                 hoverMode: 'index',
-                // stacked: false,
                 title: {
                     display: false,
                     text: 'Chart.js Line Chart - Multi Axis'
@@ -171,7 +170,6 @@ var datasets;
             ]
         }).on('select', function (e, dt, type, indexes) {
             setDatasets(getSelectedRows(dt));
-            // addToDatasets(dt.data());
             refreshChart()
         }).on('deselect', function (e, dt, type, indexes) {
             var selectedData = getSelectedRows(dt);
