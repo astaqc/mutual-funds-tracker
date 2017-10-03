@@ -145,13 +145,25 @@ var datasets;
         TrustStatusClient.getSince(date, setLastMonthData, logErrors);
     }
 
+    function setSelected(e, dt, type, indexes) {
+        setDatasets(getSelectedRows(dt));
+        refreshChart();
+    }
+
+    function unsetLastDeselected(e, dt, type, indexes) {
+        var selectedData = getSelectedRows(dt);
+        var dataToSet = selectedData.length === 0 ? datasets : selectedData;
+        setDatasets(dataToSet);
+        refreshChart();
+    }
+
     function initConfigElements() {
         this.content.css("padding", "15px");
 
         $('#getLastMonthData').on('click', getLastMonthData);
         $('#getDataSince').on('click', getDataSince);
 
-        $('#trusts').DataTable({
+        var dataTableConfig = {
             data: datasets,
             scrollY: 700,
             deferRender: true,
@@ -168,16 +180,12 @@ var datasets;
                 {title: "Color", data: printColor},
                 {title: "Name", data: 'label'}
             ]
-        }).on('select', function (e, dt, type, indexes) {
-            setDatasets(getSelectedRows(dt));
-            refreshChart()
-        }).on('deselect', function (e, dt, type, indexes) {
-            var selectedData = getSelectedRows(dt);
-            var dataToSet = selectedData.length === 0 ? datasets : selectedData;
-            setDatasets(dataToSet);
+        };
 
-            refreshChart()
-        });
+        $('#trusts')
+        .DataTable(dataTableConfig)
+        .on('select', setSelected)
+        .on('deselect', unsetLastDeselected);
     }
 
     var settingsPanel;
