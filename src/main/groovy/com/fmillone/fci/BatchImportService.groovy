@@ -36,12 +36,15 @@ class BatchImportService {
     JobLauncher jobLauncher
 
     void start() {
-        jobLauncher.run(importTrustStatus(), new JobParameters())
+        jobLauncher.run(
+                importTrustStatusJob(),
+                new JobParameters()
+        )
     }
 
 
-    Job importTrustStatus() {
-        return jobBuilderFactory.get("importUserJob")
+    Job importTrustStatusJob() {
+        return jobBuilderFactory.get("importTrustStatuses")
                 .listener(jobCompletionNotificationListener)
                 .flow(step1())
                 .end()
