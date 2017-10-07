@@ -69,7 +69,6 @@ class RemoteTrustStatusClient {
 
     String buildFormBody(String formattedDate) {
         'query=' + UriUtils.encode(buildQuery(formattedDate), 'UTF-8')
-
     }
 
 
