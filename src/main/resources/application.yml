@@ -1,0 +1,11 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+      # Enable remote access.
+        web-allow-others: true
+  output:
+    ansi:
+      enabled: always
+
