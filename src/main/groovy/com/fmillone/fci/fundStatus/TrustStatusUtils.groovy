@@ -10,8 +10,10 @@ class TrustStatusUtils {
 
     static {
         spanishFormatSymbols = DecimalFormatSymbols.instance
-        spanishFormatSymbols.decimalSeparator = ','.toCharacter()
-        spanishFormatSymbols.groupingSeparator = '.'.toCharacter()
+        spanishFormatSymbols.with {
+            decimalSeparator = ',' as char
+            groupingSeparator = '.' as char
+        }
     }
 
     static DateFormat getDateFormatter() {

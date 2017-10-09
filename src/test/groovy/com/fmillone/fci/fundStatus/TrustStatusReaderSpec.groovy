@@ -4,6 +4,8 @@ import com.fmillone.fci.fundStatus.remote.RemoteTrustStatusClient
 import groovy.util.slurpersupport.GPathResult
 import spock.lang.Specification
 
+import static com.fmillone.fci.fundStatus.TrustStatusUtils.tableDateFormat
+
 class TrustStatusReaderSpec extends Specification {
 
     TrustStatusReader reader
@@ -41,8 +43,6 @@ class TrustStatusReaderSpec extends Specification {
     }
 
     void "it should parse a date with spanish format"() {
-        given:
-
         when:
             TrustStatus trustStatus = reader.read()
         then:
@@ -52,6 +52,6 @@ class TrustStatusReaderSpec extends Specification {
             trustStatus.name == 'Consultatio Renta Variable - Clase B'
             trustStatus.totalValue == 392007619L
             trustStatus.amountOfPieces == 24386920L
-            trustStatus.date == new Date(1507258800000)
+            trustStatus.date == tableDateFormat.parse('06/10/2017')
     }
 }
