@@ -19,10 +19,11 @@ define(['Dataset'], function (Dataset) {
     }
 
     function mapToDataset(group, name) {
+        var sorted = group.sort(byDate);
         return Dataset.fromGroup({
             name: name,
-            data: group.sort(byDate)
-                .map(toPercentage())
+            data: sorted.map(toTotalValue),
+            variations: sorted.map(toPercentage())
         });
     }
 

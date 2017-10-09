@@ -8,6 +8,7 @@ define('Dataset',function () {
         this.fill = dataset.fill;
         this.data = dataset.data || [];
         this.date = dataset.date;
+        this.variations = dataset.variations || [];
     }
 
     Dataset.fromGroup = function (group) {
@@ -19,7 +20,8 @@ define('Dataset',function () {
             fill: false,
             data: group.data || [],
             yAxisID: group.yAxisID,
-            date: group.date
+            date: group.date,
+            variations: group.variations
         })
     };
 
