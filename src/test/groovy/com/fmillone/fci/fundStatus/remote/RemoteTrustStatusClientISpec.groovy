@@ -1,12 +1,14 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus.remote
 
+import com.fmillone.fci.FciApplication
+import com.fmillone.fci.fundStatus.TrustStatusUtils
 import groovy.util.slurpersupport.GPathResult
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 @SpringBootTest(classes = FciApplication)
-class RemoteTrustStatusServiceSpec extends Specification {
+class RemoteTrustStatusClientISpec extends Specification {
 
     @Autowired
     RemoteTrustStatusClient remoteTrustStatusClient

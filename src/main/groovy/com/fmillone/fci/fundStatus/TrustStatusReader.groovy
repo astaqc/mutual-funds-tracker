@@ -1,5 +1,6 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus
 
+import com.fmillone.fci.fundStatus.remote.RemoteTrustStatusClient
 import groovy.util.slurpersupport.GPathResult
 import groovy.util.slurpersupport.Node
 import groovy.util.slurpersupport.NodeChildren
@@ -8,9 +9,14 @@ import org.springframework.batch.item.NonTransientResourceException
 import org.springframework.batch.item.ParseException
 import org.springframework.batch.item.UnexpectedInputException
 
-import static com.fmillone.fci.TrustStatusUtils.getTableDateFormat
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+
+import static com.fmillone.fci.fundStatus.TrustStatusUtils.tableDateFormat
+import static com.fmillone.fci.fundStatus.TrustStatusUtils.valuesPerUnitFormat
+import static com.fmillone.fci.utils.DateUtils.nextWeekday
 import static java.lang.Long.valueOf
-import static java.util.Calendar.*
 
 class TrustStatusReader implements ItemReader<TrustStatus> {
 
@@ -18,11 +24,12 @@ class TrustStatusReader implements ItemReader<TrustStatus> {
             Nombre  : { TrustStatus t, String value -> t.name = value },
             Fecha   : { TrustStatus t, String value -> t.date = tableDateFormat.parse(value) },
             Horiz   : { TrustStatus t, String value -> t.horiz = value },
-            VCP     : { t, v -> },
+            VCP     : { TrustStatus t, String value -> t.valuesPerUnity = valuesPerUnitFormat.parse(value).doubleValue() },
             QCP     : { TrustStatus t, String value -> t.amountOfPieces = valueOf(value.replaceAll(/\./, '')) },
             PN      : { TrustStatus t, String value -> t.totalValue = valueOf(value.replaceAll(/\./, '')) },
             Espacios: { t, v -> }
     ].asImmutable()
+
     private static final String HORIZ_DEFAULT_VALUE = 'N'
     private static final int HORIZ_KEY = 2
 
@@ -33,12 +40,12 @@ class TrustStatusReader implements ItemReader<TrustStatus> {
 
     @Override
     TrustStatus read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-        if(currentDate >= to){
+        if (currentDate >= to) {
             return null
         }
 
         if (shouldGetNextBatch()) {
-            getNextBatch()
+            fetchNextBatch()
         }
 
         return findNextTrustStatus()
@@ -56,7 +63,7 @@ class TrustStatusReader implements ItemReader<TrustStatus> {
         return extractTrustStatus(row)
     }
 
-    private boolean isValid(List<Node> row) {
+    private static boolean isValid(List<Node> row) {
         row[HORIZ_KEY].text() != HORIZ_DEFAULT_VALUE
     }
 
@@ -68,24 +75,10 @@ class TrustStatusReader implements ItemReader<TrustStatus> {
         return trustStatus
     }
 
-    private void getNextBatch() {
+    private void fetchNextBatch() {
         GPathResult response = remoteTrustStatusClient.fetch(currentDate)
         currentDate = nextWeekday(currentDate)
         setRawTrustStatuses(response)
-    }
-
-    Date nextWeekday(Date date) {
-        Calendar cal = date.toCalendar()
-
-        cal.add(DATE, 1)
-        while (!isWeekDay(cal)) {
-            cal.add(DATE, 1)
-        }
-        return cal.time
-    }
-
-    private boolean isWeekDay(Calendar cal) {
-        cal.get(DAY_OF_WEEK) in (MONDAY..FRIDAY)
     }
 
     void setRawTrustStatuses(GPathResult response) {

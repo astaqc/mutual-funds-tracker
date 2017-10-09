@@ -1,4 +1,4 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus.remote
 
 import spock.lang.Specification
 

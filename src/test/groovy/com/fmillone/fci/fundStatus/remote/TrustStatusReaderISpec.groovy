@@ -1,5 +1,8 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus.remote
 
+import com.fmillone.fci.FciApplication
+import com.fmillone.fci.fundStatus.TrustStatus
+import com.fmillone.fci.fundStatus.TrustStatusReader
 import org.springframework.batch.item.ItemReader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,7 +12,7 @@ import spock.lang.Specification
 import java.text.SimpleDateFormat
 
 @SpringBootTest(classes = FciApplication)
-class TrustStatusReaderSpec extends Specification {
+class TrustStatusReaderISpec extends Specification {
 
     ItemReader<TrustStatus> reader
     @Autowired

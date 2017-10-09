@@ -1,4 +1,4 @@
-(function (w) {
+define('Dataset',function () {
 
     function Dataset(dataset) {
         dataset = dataset || {};
@@ -7,14 +7,10 @@
         this.backgroundColor = dataset.backgroundColor;
         this.fill = dataset.fill;
         this.data = dataset.data || [];
-        // this.yAxisID = dataset.yAxisID;
         this.date = dataset.date;
     }
 
-
-
-    w.Dataset = Dataset;
-    w.Dataset.fromGroup = function (group) {
+    Dataset.fromGroup = function (group) {
         var color = randomColor();
         return new Dataset({
             label: group.name,
@@ -27,4 +23,5 @@
         })
     };
 
-})(window);
+    return Dataset;
+});

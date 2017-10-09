@@ -1,5 +1,6 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus.remote
 
+import com.fmillone.fci.fundStatus.TrustStatusUtils
 import groovy.util.slurpersupport.GPathResult
 import okhttp3.*
 import org.springframework.stereotype.Service

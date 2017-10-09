@@ -1,5 +1,7 @@
-package com.fmillone.fci
+package com.fmillone.fci.config
 
+import com.fmillone.fci.fundStatus.TrustStatus
+import com.fmillone.fci.fundStatus.TrustStatusRepository
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
 import org.springframework.batch.core.launch.JobLauncher
 import org.springframework.batch.core.launch.support.SimpleJobLauncher

@@ -1,11 +1,11 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-import static com.fmillone.fci.DateUtils.amonthAgo
+import static com.fmillone.fci.utils.DateUtils.amonthAgo
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 
 @RestController

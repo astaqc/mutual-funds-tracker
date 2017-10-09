@@ -1,4 +1,4 @@
-package com.fmillone.fci
+package com.fmillone.fci.fundStatus
 
 import org.springframework.data.repository.CrudRepository
 

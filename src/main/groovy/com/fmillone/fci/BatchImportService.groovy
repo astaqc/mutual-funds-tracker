@@ -1,5 +1,9 @@
 package com.fmillone.fci
 
+import com.fmillone.fci.config.JobCompletionNotificationListener
+import com.fmillone.fci.fundStatus.TrustStatus
+import com.fmillone.fci.fundStatus.TrustStatusReader
+import com.fmillone.fci.fundStatus.remote.RemoteTrustStatusClient
 import groovy.transform.CompileStatic
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParameters
@@ -19,19 +23,14 @@ class BatchImportService {
 
     @Autowired
     JobBuilderFactory jobBuilderFactory
-
     @Autowired
     StepBuilderFactory stepBuilderFactory
-
     @Autowired
     RepositoryItemWriter<TrustStatus> repositoryItemWriter
-
     @Autowired
     JobCompletionNotificationListener jobCompletionNotificationListener
-
     @Autowired
     RemoteTrustStatusClient remoteTrustStatusClient
-
     @Autowired
     JobLauncher jobLauncher
 
