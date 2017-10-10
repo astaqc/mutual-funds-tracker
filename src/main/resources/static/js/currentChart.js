@@ -2,13 +2,12 @@ define(['Dataset', 'chartConfig', 'dataUtils', 'currentData'], function (Dataset
 
     var myLine;
 
-
     function refreshChart() {
         console.log("refreshing");
         myLine.update();
     }
 
-    function initChart(data){
+    function initChart(data) {
         myLine = chartConfig.initChart(data);
     }
 

@@ -1,4 +1,26 @@
-define([], function () {
+define(['currentData'], function (currentData) {
+
+    function buildLabel(tooltipItem, data) {
+        return 'Value: ' + currentData.getDataFor(
+            tooltipItem.datasetIndex,
+            tooltipItem.index
+        ).value;
+    }
+
+    function buildAfterLabel(tooltipItem, data) {
+        return 'Variation: ' + currentData.getDataFor(
+            tooltipItem.datasetIndex,
+            tooltipItem.index
+        ).variation;
+    }
+
+    function buildTitle(tooltips, data) {
+        var tooltip = tooltips[0];
+        return data.labels[tooltip.index] + '  ' +
+            data.datasets[tooltip.datasetIndex].label;
+    }
+
+
     return {
         initChart: function (lineChartData) {
             var ctx = document.getElementById("canvas").getContext("2d");
@@ -7,21 +29,9 @@ define([], function () {
                 options: {
                     tooltips: {
                         callbacks: {
-                            label: function (tooltipItem, data) {
-                                var idx = tooltipItem.datasetIndex;
-                                var day = tooltipItem.index;
-                                return 'Value: ' + data.datasets[idx].data[day];
-                            },
-                            afterLabel: function (tooltipItem, data) {
-                                var idx = tooltipItem.datasetIndex;
-                                var day = tooltipItem.index;
-                                return 'Variation: ' + data.datasets[idx].variations[day];
-                            },
-                            title: function (tooltips, data) {
-                                var tooltip = tooltips[0];
-                                return data.labels[tooltip.index] + '  ' +
-                                    data.datasets[tooltip.datasetIndex].label;
-                            }
+                            label: buildLabel,
+                            afterLabel: buildAfterLabel,
+                            title: buildTitle
                         }
                     },
                     legend: false,
@@ -39,23 +49,19 @@ define([], function () {
                         text: "Chart.js Line Chart - Multi Axis"
                     },
                     scales: {
-                        xAxes: [
-                            {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
                                 display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: "day"
-                                }
+                                labelString: "day"
                             }
-                        ],
-                        yAxes: [
-                            {
-                                type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                                display: true,
-                                position: "left"
-                                // id: "y-axis-1",
-                            }
-                        ]
+                        }],
+                        yAxes: [{
+                            type: "linear",
+                            display: true,
+                            position: "left"
+                            // id: "y-axis-1"
+                        }]
                     }
                 }
             });

@@ -38,6 +38,14 @@ define('currentData', function () {
         return cachedDatasets;
     }
 
+    function getDataFor(idx, day) {
+        var dataset = lineChartData.datasets[idx];
+        return {
+            value: dataset.data[day],
+            variation: dataset.variations[day]
+        };
+    }
+
     return {
         getDataSets: getDatasets,
         getLineChartData: function () {
@@ -45,7 +53,8 @@ define('currentData', function () {
         },
         setDatasets: setDatasets,
         setLabels: setLabels,
-        getOriginalDatasets: getOriginalDatasets
+        getOriginalDatasets: getOriginalDatasets,
+        getDataFor: getDataFor
 
     }
 });

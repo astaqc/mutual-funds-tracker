@@ -1,4 +1,4 @@
-define('Dataset',function () {
+define('Dataset', function () {
 
     function Dataset(dataset) {
         dataset = dataset || {};
@@ -8,6 +8,7 @@ define('Dataset',function () {
         this.fill = dataset.fill;
         this.data = dataset.data || [];
         this.date = dataset.date;
+        this.yAxisID = dataset.yAxisID;
         this.variations = dataset.variations || [];
     }
 

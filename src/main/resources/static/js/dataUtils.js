@@ -18,12 +18,24 @@ define(['Dataset'], function (Dataset) {
         return new Date(a.date) - new Date(b.date);
     }
 
+    function mapToDataAndVariations(sortedGroup) {
+        var func = toPercentage();
+        return sortedGroup.reduce(function (acc, item) {
+                acc.data.push(toTotalValue(item));
+                acc.variations.push(func(item));
+                return acc;
+            },
+            {data: [], variations: []}
+        )
+    }
+
     function mapToDataset(group, name) {
         var sorted = group.sort(byDate);
+        var dataAndVariation = mapToDataAndVariations(sorted);
         return Dataset.fromGroup({
             name: name,
-            data: sorted.map(toTotalValue),
-            variations: sorted.map(toPercentage())
+            data: dataAndVariation.data,
+            variations: dataAndVariation.variations
         });
     }
 
