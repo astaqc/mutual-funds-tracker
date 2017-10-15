@@ -2,7 +2,7 @@ define(['Dataset'], function (Dataset) {
 
 
     function toTotalValue(item) {
-        return item.valuesPerUnity;
+        return item.valuesPerUnity / 1000;
     }
 
     function toPercentage() {
@@ -15,7 +15,7 @@ define(['Dataset'], function (Dataset) {
     }
 
     function byDate(a, b) {
-        return new Date(a.date) - new Date(b.date);
+        return a.date - b.date;
     }
 
     function mapToDataAndVariations(sortedGroup) {

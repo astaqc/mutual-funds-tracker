@@ -2,6 +2,7 @@ package com.fmillone.fci.config
 
 import com.fmillone.fci.fundStatus.TrustStatus
 import com.fmillone.fci.fundStatus.TrustStatusRepository
+import groovy.transform.CompileStatic
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
 import org.springframework.batch.core.launch.JobLauncher
 import org.springframework.batch.core.launch.support.SimpleJobLauncher
@@ -14,6 +15,7 @@ import org.springframework.core.task.TaskExecutor
 
 @Configuration
 @EnableBatchProcessing
+@CompileStatic
 class BatchConfiguration {
 
     @Bean

@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Ignore
 import spock.lang.Specification
 
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+
+import static com.fmillone.fci.utils.DateUtils.today
 
 @SpringBootTest(classes = FciApplication)
 class TrustStatusReaderISpec extends Specification {
@@ -21,15 +23,13 @@ class TrustStatusReaderISpec extends Specification {
     void setup(){
         reader = new TrustStatusReader(
                 remoteTrustStatusClient: remoteTrustStatusClient,
-                currentDate: new SimpleDateFormat('yyyy-MM-dd').parse('2017-01-01'),
-                to: new Date()
+                currentDate: LocalDate.parse('2017-01-01'),
+                to: today
         )
     }
 
     @Ignore('only for live testing')
     void "it should read and extract one trust status"() {
-        given:
-
         when:
             TrustStatus trustStatus = reader.read()
         then:

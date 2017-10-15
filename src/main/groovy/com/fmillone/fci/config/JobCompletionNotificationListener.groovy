@@ -14,15 +14,7 @@ import org.springframework.stereotype.Component
 @Log4j
 class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
-//    private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener)
     public static final String JOB_FINISHED_MESSAGE = "!!! JOB FINISHED! Time to verify the results"
-
-    private final JdbcTemplate jdbcTemplate
-
-    @Autowired
-    JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate
-    }
 
     @Override
     void afterJob(JobExecution jobExecution) {

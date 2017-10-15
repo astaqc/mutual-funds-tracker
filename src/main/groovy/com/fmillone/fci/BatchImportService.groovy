@@ -15,7 +15,9 @@ import org.springframework.batch.item.data.RepositoryItemWriter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+
+import static com.fmillone.fci.utils.DateUtils.today
 
 @Service
 @CompileStatic
@@ -45,21 +47,21 @@ class BatchImportService {
     Job importTrustStatusJob() {
         return jobBuilderFactory.get("importTrustStatuses")
                 .listener(jobCompletionNotificationListener)
-                .flow(step1())
+                .flow(importFundStatusesStep)
                 .end()
                 .build()
     }
 
     TrustStatusReader getTrustStatusReader() {
-        new TrustStatusReader(
+            new TrustStatusReader(
                 remoteTrustStatusClient: remoteTrustStatusClient,
-                currentDate: new SimpleDateFormat('yyyy-MM-dd').parse('2017-01-02'),
-                to: new Date()
+                currentDate: LocalDate.parse('2017-01-02'),
+                to: today
         )
     }
 
-    Step step1() {
-        return stepBuilderFactory.get("step1")
+    Step getImportFundStatusesStep() {
+        return stepBuilderFactory.get("import fund statuses")
                 .<TrustStatus, TrustStatus> chunk(10)
                 .reader(trustStatusReader)
                 .writer(repositoryItemWriter)

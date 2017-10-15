@@ -1,10 +1,9 @@
 package com.fmillone.fci.fundStatus
 
-import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 class TrustStatusUtils {
 
@@ -16,12 +15,12 @@ class TrustStatusUtils {
         }
     }
 
-    static DateFormat getDateFormatter() {
-        return new SimpleDateFormat('yyyy-MM-dd', Locale.ENGLISH)
+    static DateTimeFormatter getDateFormatter() {
+        DateTimeFormatter.ofPattern('yyyy-MM-dd')
     }
 
-    static DateFormat getTableDateFormat() {
-        return new SimpleDateFormat('dd/MM/yyyy', Locale.ENGLISH)
+    static DateTimeFormatter getTableDateFormat() {
+        DateTimeFormatter.ofPattern('dd/MM/yyyy')
     }
 
     private static DecimalFormatSymbols spanishFormatSymbols

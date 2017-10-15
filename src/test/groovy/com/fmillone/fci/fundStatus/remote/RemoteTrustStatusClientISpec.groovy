@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
+import java.time.LocalDate
+
 @SpringBootTest(classes = FciApplication)
 class RemoteTrustStatusClientISpec extends Specification {
 
@@ -21,7 +23,7 @@ class RemoteTrustStatusClientISpec extends Specification {
 
     void "it should fetch the current date trusts statuses"() {
         given:
-            Date date = TrustStatusUtils.dateFormatter.parse('2017-09-27')
+            LocalDate date = LocalDate.parse('2017-09-27', TrustStatusUtils.dateFormatter)
         when:
             GPathResult response = remoteTrustStatusClient.fetch(date)
         then:

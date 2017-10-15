@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.util.UriUtils
 
 import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 @Service
@@ -23,7 +25,7 @@ class RemoteTrustStatusClient {
                 .build()
     }
 
-    GPathResult fetch(Date date) {
+    GPathResult fetch(LocalDate date) {
         setDate(date)
         Response response = fetchStatus()
         String body = response.body().string()
@@ -68,16 +70,16 @@ class RemoteTrustStatusClient {
         execute(request).close()
     }
 
-    String buildFormBody(String formattedDate) {
+    static String buildFormBody(String formattedDate) {
         'query=' + UriUtils.encode(buildQuery(formattedDate), 'UTF-8')
     }
 
 
-    static DateFormat getFormatter() {
+    static DateTimeFormatter getFormatter() {
         TrustStatusUtils.dateFormatter
     }
 
-    private void setDate(Date date) {
+    private void setDate(LocalDate date) {
         String formattedDate = formatter.format(date)
         executeSetDate(formattedDate)
     }
