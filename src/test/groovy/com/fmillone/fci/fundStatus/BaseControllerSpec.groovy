@@ -21,15 +21,12 @@ abstract class BaseControllerSpec extends Specification {
         new JsonSlurper().parseText(response.contentAsString)
     }
 
-    MockHttpServletResponse performGET(String urlTemplate){
+    MockHttpServletResponse performGET(String urlTemplate) {
         return mockMvc
                 .perform(get(urlTemplate))
                 .andReturn()
                 .response
     }
-
-
-
 
 
 }

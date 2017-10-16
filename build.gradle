@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
     }
 }
 
@@ -23,24 +23,27 @@ repositories {
     mavenCentral()
 }
 
+ext{
+    spockVersion = '1.1-groovy-2.4'
+    okhttpVersion = '3.9.0'
+}
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-batch')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile "org.springframework.boot:spring-boot-devtools"
-    compile('org.codehaus.groovy:groovy-all')
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.9.0'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-batch'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.codehaus.groovy:groovy-all'
+    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttpVersion"
 
+    runtime 'com.h2database:h2'
 
-    runtime('com.h2database:h2')
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
-    testCompile group: 'cglib', name: 'cglib-nodep', version: '3.2.5'
-    testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.1-groovy-2.4'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile "org.spockframework:spock-core:$spockVersion"
+    testCompile 'cglib:cglib-nodep:3.2.5'
+    testCompile "org.spockframework:spock-spring:$spockVersion"
 
 
 }
