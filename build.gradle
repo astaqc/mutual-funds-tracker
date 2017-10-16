@@ -26,6 +26,7 @@ repositories {
 ext{
     spockVersion = '1.1-groovy-2.4'
     okhttpVersion = '3.9.0'
+    springfoxVersion = '2.7.0'
 }
 
 dependencies {
@@ -37,6 +38,9 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all'
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttpVersion"
+    compile "io.springfox:springfox-swagger2:$springfoxVersion"
+    compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
+
 
     runtime 'com.h2database:h2'
 
