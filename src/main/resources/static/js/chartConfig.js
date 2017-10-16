@@ -1,29 +1,29 @@
-define(['currentData'], function (currentData) {
+define(['currentData'], currentData => {
 
     function buildLabel(tooltipItem, data) {
-        return 'Value: ' + currentData.getDataFor(
+        return `Value: ${currentData.getDataFor(
             tooltipItem.datasetIndex,
             tooltipItem.index
-        ).value;
+        ).value}`;
     }
 
     function buildAfterLabel(tooltipItem, data) {
-        return 'Variation: ' + currentData.getDataFor(
+        return `Variation: ${currentData.getDataFor(
             tooltipItem.datasetIndex,
             tooltipItem.index
-        ).variation;
+        ).variation}`;
     }
 
     function buildTitle(tooltips, data) {
-        var tooltip = tooltips[0];
-        return data.labels[tooltip.index] + '  ' +
-            data.datasets[tooltip.datasetIndex].label;
+        const tooltip = tooltips[0];
+        return `${data.labels[tooltip.index]}\
+          ${data.datasets[tooltip.datasetIndex].label}`;
     }
 
 
     return {
-        initChart: function (lineChartData) {
-            var ctx = document.getElementById("canvas").getContext("2d");
+        initChart: lineChartData => {
+            const ctx = document.getElementById("canvas").getContext("2d");
             return Chart.Line(ctx, {
                 data: lineChartData,
                 options: {

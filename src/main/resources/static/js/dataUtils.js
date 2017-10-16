@@ -1,14 +1,14 @@
 define(['Dataset'], function (Dataset) {
 
 
-    function toTotalValue(item) {
+    function toValuePerUnity(item) {
         return item.valuesPerUnity / 1000;
     }
 
     function toPercentage() {
-        var previous;
-        return function (item) {
-            var result = previous ? (item.valuesPerUnity / previous - 1) * 100 : 0;
+        let previous;
+        return item => {
+            const result = previous ? (item.valuesPerUnity / previous - 1) * 100 : 0;
             previous = item.valuesPerUnity;
             return result;
         }
@@ -19,9 +19,9 @@ define(['Dataset'], function (Dataset) {
     }
 
     function mapToDataAndVariations(sortedGroup) {
-        var func = toPercentage();
+        const func = toPercentage();
         return sortedGroup.reduce(function (acc, item) {
-                acc.data.push(toTotalValue(item));
+                acc.data.push(toValuePerUnity(item));
                 acc.variations.push(func(item));
                 return acc;
             },
@@ -30,8 +30,8 @@ define(['Dataset'], function (Dataset) {
     }
 
     function mapToDataset(group, name) {
-        var sorted = group.sort(byDate);
-        var dataAndVariation = mapToDataAndVariations(sorted);
+        const sorted = group.sort(byDate);
+        const dataAndVariation = mapToDataAndVariations(sorted);
         return Dataset.fromGroup({
             name: name,
             data: dataAndVariation.data,
@@ -52,12 +52,12 @@ define(['Dataset'], function (Dataset) {
 
     function convertToChartData(data) {
         data = data || [];
-        var groups = groupByName(data);
+        const groups = groupByName(data);
         return $.map(groups, mapToDataset);
     }
 
     function uniqueDays(days) {
-        var seen = {};
+        let seen = {};
         return days.filter(function (item) {
             return seen.hasOwnProperty(item.date) ? false : (seen[item.date] = true);
         });
@@ -81,7 +81,7 @@ define(['Dataset'], function (Dataset) {
     }
 
     function toFormattedDate(date) {
-        return "" + date.getDate() + "/" + (date.getMonth() + 1);
+        return `${date.getDate()}/${date.getMonth() + 1}`;
     }
 
     return {

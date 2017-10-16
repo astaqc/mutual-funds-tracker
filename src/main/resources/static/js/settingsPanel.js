@@ -1,7 +1,7 @@
-define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData','dataUtils'],
-    function (TrustStatusClient, currentChart, table, currentData, dataUtils) {
+define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData', 'dataUtils'],
+    (TrustStatusClient, currentChart, table, currentData, dataUtils) => {
 
-        var settingsPanel;
+        let settingsPanel;
 
         function setData(response) {
             currentData.setDatasets(dataUtils.convertToChartData(response));
@@ -15,7 +15,7 @@ define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData','dat
         }
 
         function fetchDataSince() {
-            var date = $("#sinceDateInput")[0].valueAsDate;
+            const date = $("#sinceDateInput")[0].valueAsDate;
             TrustStatusClient.getSince(date, setData);
         }
 
@@ -25,8 +25,8 @@ define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData','dat
         }
 
         function unsetLastDeselected(e, dt, type, indexes) {
-            var selectedData = table.getSelectedRows();
-            var dataToSet = selectedData.length === 0 ? currentData.getOriginalDatasets() : selectedData;
+            const selectedData = table.getSelectedRows();
+            const dataToSet = selectedData.length === 0 ? currentData.getOriginalDatasets() : selectedData;
             currentData.setDatasets(dataToSet);
             currentChart.refreshChart();
         }
@@ -43,7 +43,7 @@ define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData','dat
                 .on("deselect", unsetLastDeselected);
         }
 
-        var panelConfig = {
+        const panelConfig = {
             position: {my: "right", at: "center-top", offsetY: 5},
             contentSize: {width: 600, height: 700},
             theme: "crimson",

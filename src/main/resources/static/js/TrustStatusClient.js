@@ -1,28 +1,30 @@
-define([], function () {
+define([], () => {
 
-    function Client() {
-        this.baseUrl = '/api/trustStatus'
+    class Client {
+        constructor() {
+            this.baseUrl = '/api/trustStatus';
+        }
+
+        getLastMonth(success, error) {
+            $.get(
+                this.baseUrl + '/lastMonth',
+                null,
+                success
+            ).fail(error || logErrors);
+        };
+
+        getSince(date, success, error) {
+            $.get(
+                this.baseUrl + '/since',
+                {date: date},
+                success
+            ).fail(error || logErrors)
+        };
     }
 
     function logErrors(d) {
         console.log(d);
     }
-
-    Client.prototype.getLastMonth = function (success, error) {
-        $.get(
-            this.baseUrl + '/lastMonth',
-            null,
-            success
-        ).fail(error || logErrors);
-    };
-
-    Client.prototype.getSince = function (date, success, error) {
-        $.get(
-            this.baseUrl + '/since',
-            {date: date},
-            success
-        ).fail(error || logErrors)
-    };
 
     return new Client();
 });

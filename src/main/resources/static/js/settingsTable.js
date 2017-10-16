@@ -1,8 +1,8 @@
-define(['currentData'], function (currentData) {
+define(['currentData'], currentData => {
 
-    var table;
-    var domElement;
-    var dataTableConfig = {
+    let table;
+    let domElement;
+    const dataTableConfig = {
         data: currentData.getDataSets(),
         scrollY: 700,
         deferRender: true,
@@ -25,9 +25,7 @@ define(['currentData'], function (currentData) {
 
     function printColor(row) {
         return (
-            '<i style="font-size: 2em;color: ' +
-            row.backgroundColor +
-            ';" >&#9673;</i>'
+            `<i style="font-size: 2em;color: ${row.backgroundColor};" >&#9673;</i>`
         );
     }
 
