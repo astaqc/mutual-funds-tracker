@@ -8,11 +8,11 @@ import static java.time.LocalDate.parse as localDate
 class TrustStatusControllerSpec extends BaseControllerSpec {
 
     TrustStatusController controller
-    TrustStatusRepository repository
+    FundService service
 
     void setup() {
-        repository = Mock(TrustStatusRepository)
-        controller = new TrustStatusController(trustStatusRepository: repository)
+        service = Mock(FundService)
+        controller = new TrustStatusController(fundService: service)
         setupMockMvc(controller)
     }
 
@@ -26,7 +26,7 @@ class TrustStatusControllerSpec extends BaseControllerSpec {
         when:
             def response = performGET('/api/trustStatus/lastMonth')
         then:
-            1 * repository.findAllByDateGreaterThan(amonthAgo) >> [fundStatus]
+            1 * service.getAllByDateGreaterThan(amonthAgo) >> [fundStatus]
         and:
             List jsonResponse = getJsonResponse(response)
             jsonResponse.size() == 1
@@ -41,7 +41,7 @@ class TrustStatusControllerSpec extends BaseControllerSpec {
         when:
             def response = performGET('/api/trustStatus/since?date=Tue Oct 10 2017 21:00:00 GMT-0300 (-03)')
         then:
-            1 * repository.findAllByDateGreaterThan(queryDate) >> [fundStatus]
+            1 * service.getAllByDateGreaterThan(queryDate) >> [fundStatus]
         and:
             List jsonResponse = getJsonResponse(response)
             jsonResponse.size() == 1

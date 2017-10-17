@@ -8,3 +8,11 @@ canvas {
   width: 95%;
   height: 90%;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+.panel {
+    padding: 15px;
+}

@@ -6,20 +6,39 @@ define([], () => {
         }
 
         getLastMonth(success, error) {
-            $.get(
-                this.baseUrl + '/lastMonth',
+            this._get(
+                '/lastMonth',
                 null,
-                success
-            ).fail(error || logErrors);
-        };
+                success,
+                error
+            );
+        }
 
         getSince(date, success, error) {
-            $.get(
-                this.baseUrl + '/since',
+            this._get(
+                '/since',
                 {date: date},
+                success,
+                error
+            );
+        }
+
+        getGain(fundName, initialInvestment, sinceDate, success, error) {
+            this._get(
+                '/gain',
+                {fundName: fundName, initialInvestment: initialInvestment, since: sinceDate},
+                success,
+                error
+            );
+        }
+
+        _get(endpoint, data, success, error) {
+            $.get(
+                this.baseUrl + endpoint,
+                data,
                 success
-            ).fail(error || logErrors)
-        };
+            ).fail(error || logErrors);
+        }
     }
 
     function logErrors(d) {

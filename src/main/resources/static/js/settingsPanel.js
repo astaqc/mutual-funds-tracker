@@ -1,5 +1,6 @@
-define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData', 'dataUtils'],
-    (TrustStatusClient, currentChart, table, currentData, dataUtils) => {
+define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData',
+        'dataUtils', 'calculatorPanel', 'constants'],
+    (FundClient, currentChart, table, currentData, dataUtils, calcPanel, constants) => {
 
         let settingsPanel;
 
@@ -11,12 +12,12 @@ define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData', 'da
         }
 
         function fetchLastMonthData() {
-            TrustStatusClient.getLastMonth(setData);
+            FundClient.getLastMonth(setData);
         }
 
         function fetchDataSince() {
-            const date = $("#sinceDateInput")[0].valueAsDate;
-            TrustStatusClient.getSince(date, setData);
+            const date = getDateValue('#sinceDateInput');
+            FundClient.getSince(date, setData);
         }
 
         function setSelected(e, dt, type, indexes) {
@@ -31,22 +32,27 @@ define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData', 'da
             currentChart.refreshChart();
         }
 
-        function initConfigElements() {
-            this.content.css("padding", "15px");
-
-            $("#getLastMonthData").on("click", fetchLastMonthData);
-            $("#getDataSince").on("click", fetchDataSince);
+        function setupSettings() {
+            $("#getLastMonthData").on('click', fetchLastMonthData);
+            $("#getDataSince").on('click', fetchDataSince);
 
             table
-                .initTable($("#trusts"))
-                .on("select", setSelected)
-                .on("deselect", unsetLastDeselected);
+                .initTable($('#trusts'))
+                .on('select', setSelected)
+                .on('deselect', unsetLastDeselected);
         }
 
         const panelConfig = {
             position: {my: "right", at: "center-top", offsetY: 5},
             contentSize: {width: 600, height: 700},
-            theme: "crimson",
+            theme: constants.panelTheme,
+            headerToolbar: [
+                {
+                    item: "<span class='fa fa-calculator pointer'>",
+                    event: 'click',
+                    callback: calcPanel.openCalculatorPanel
+                }
+            ],
             headerTitle: "Settings",
             headerControls: {
                 close: "disable",
@@ -62,16 +68,24 @@ define(['TrustStatusClient', 'currentChart', 'settingsTable', 'currentData', 'da
                 autoload: true,
                 autoresize: true,
                 autoreposition: true,
-                done: initConfigElements
+                done: setupSettings
             }
         };
 
+        function close(panel) {
+            if (panel) {
+                panel.close();
+            }
+        }
+
+        function getDateValue(query) {
+            let date = $(query).val().split('-');
+            return new Date(date);
+        }
 
         return {
             openSettingsPanel: function () {
-                if (settingsPanel) {
-                    settingsPanel.close();
-                }
+                close(settingsPanel);
                 settingsPanel = $.jsPanel(panelConfig);
                 fetchLastMonthData();
             }
