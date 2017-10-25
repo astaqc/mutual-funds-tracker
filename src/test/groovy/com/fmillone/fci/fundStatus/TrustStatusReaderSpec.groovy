@@ -1,15 +1,14 @@
 package com.fmillone.fci.fundStatus
 
-import com.fmillone.fci.fundStatus.remote.RemoteTrustStatusClient
+import com.fmillone.fci.importing.fundStatus.TrustStatusReader
+import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
 import groovy.util.slurpersupport.GPathResult
 import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static com.fmillone.fci.fundStatus.TrustStatusUtils.tableDateFormat
 import static com.fmillone.fci.utils.DateUtils.aDayAfter
 import static com.fmillone.fci.utils.DateUtils.aDayBefore
-import static com.fmillone.fci.utils.DateUtils.today
 
 class TrustStatusReaderSpec extends Specification {
 

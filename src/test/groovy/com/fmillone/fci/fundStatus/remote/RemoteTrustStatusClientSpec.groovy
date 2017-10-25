@@ -1,5 +1,6 @@
 package com.fmillone.fci.fundStatus.remote
 
+import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
 import spock.lang.Specification
 
 class RemoteTrustStatusClientSpec extends Specification {

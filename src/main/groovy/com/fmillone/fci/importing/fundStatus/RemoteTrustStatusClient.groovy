@@ -1,4 +1,4 @@
-package com.fmillone.fci.fundStatus.remote
+package com.fmillone.fci.importing.fundStatus
 
 import com.fmillone.fci.fundStatus.TrustStatusUtils
 import groovy.util.slurpersupport.GPathResult

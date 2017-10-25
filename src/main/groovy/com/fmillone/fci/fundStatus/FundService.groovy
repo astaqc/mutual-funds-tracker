@@ -1,5 +1,6 @@
 package com.fmillone.fci.fundStatus
 
+import com.fmillone.fci.utils.NotFoundException
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

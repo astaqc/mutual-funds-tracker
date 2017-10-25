@@ -2,7 +2,8 @@ package com.fmillone.fci.fundStatus.remote
 
 import com.fmillone.fci.FciApplication
 import com.fmillone.fci.fundStatus.TrustStatus
-import com.fmillone.fci.fundStatus.TrustStatusReader
+import com.fmillone.fci.importing.fundStatus.TrustStatusReader
+import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
 import org.springframework.batch.item.ItemReader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

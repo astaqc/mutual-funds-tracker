@@ -1,9 +1,9 @@
-package com.fmillone.fci
+package com.fmillone.fci.importing
 
 import com.fmillone.fci.config.JobCompletionNotificationListener
 import com.fmillone.fci.fundStatus.TrustStatus
-import com.fmillone.fci.fundStatus.TrustStatusReader
-import com.fmillone.fci.fundStatus.remote.RemoteTrustStatusClient
+import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
+import com.fmillone.fci.importing.fundStatus.TrustStatusReader
 import groovy.transform.CompileStatic
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParameters

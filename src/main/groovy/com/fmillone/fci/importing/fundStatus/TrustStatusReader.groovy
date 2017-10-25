@@ -1,6 +1,6 @@
-package com.fmillone.fci.fundStatus
+package com.fmillone.fci.importing.fundStatus
 
-import com.fmillone.fci.fundStatus.remote.RemoteTrustStatusClient
+import com.fmillone.fci.fundStatus.TrustStatus
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.slurpersupport.GPathResult
@@ -13,7 +13,7 @@ import org.springframework.batch.item.UnexpectedInputException
 
 import java.time.LocalDate
 
-import static com.fmillone.fci.fundStatus.remote.FundStatusExtractor.extract
+import static com.fmillone.fci.importing.fundStatus.FundStatusExtractor.extract
 import static com.fmillone.fci.utils.DateUtils.isWeekend
 import static com.fmillone.fci.utils.DateUtils.nextWeekday
 import static com.fmillone.fci.utils.DateUtils.previousWeekday
