@@ -39,15 +39,15 @@ class DateUtils {
         date.dayOfWeek in fridayOrSaturday
     }
 
-    static LocalDate previousWeekday(LocalDate date) {
+    static LocalDate previousWeekday(LocalDate date = today) {
         isMondayOrSunday(date) ? date.with(previous(FRIDAY)) : date.minusDays(oneDay)
     }
 
-    private static boolean isMondayOrSunday(LocalDate date) {
+    private static boolean isMondayOrSunday(LocalDate date = today) {
         date.dayOfWeek in mondayOrSunday
     }
 
-    static boolean isWeekend(LocalDate date) {
+    static boolean isWeekend(LocalDate date = today) {
         date.dayOfWeek in WEEKEND
     }
 

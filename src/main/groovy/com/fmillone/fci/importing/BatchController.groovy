@@ -10,9 +10,17 @@ class BatchController {
     @Autowired
     BatchImportService batchImportService
 
+    @Autowired
+    BatchStatusService batchStatusService
+
     @GetMapping( value = '/startJob')
     String startJob(){
         batchImportService.start()
         return 'started ' + new Date().toString()
+    }
+
+    @GetMapping( value = '/importStatus')
+    String importStatus(){
+        return batchStatusService.getJobExecution('importTrustStatuses')
     }
 }

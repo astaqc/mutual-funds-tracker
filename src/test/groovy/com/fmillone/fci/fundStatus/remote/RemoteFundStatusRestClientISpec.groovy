@@ -2,19 +2,20 @@ package com.fmillone.fci.fundStatus.remote
 
 import com.fmillone.fci.FciApplication
 import com.fmillone.fci.fundStatus.TrustStatusUtils
-import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
-import groovy.util.slurpersupport.GPathResult
+import com.fmillone.fci.importing.fundStatus.RemoteFundStatus
+import com.fmillone.fci.importing.fundStatus.RemoteFundStatusService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import java.time.LocalDate
 
 @SpringBootTest(classes = FciApplication)
-class RemoteTrustStatusClientISpec extends Specification {
+class RemoteFundStatusRestClientISpec extends Specification {
 
     @Autowired
-    RemoteTrustStatusClient remoteTrustStatusClient
+    RemoteFundStatusService service
 
     void setup() {
     }
@@ -22,13 +23,16 @@ class RemoteTrustStatusClientISpec extends Specification {
     void cleanup() {
     }
 
+    @Ignore('just for live debugging')
     void "it should fetch the current date trusts statuses"() {
         given:
             LocalDate date = LocalDate.parse('2017-09-27', TrustStatusUtils.dateFormatter)
         when:
-            GPathResult response = remoteTrustStatusClient.fetch(date)
+            List<RemoteFundStatus> response = service.fetchByTypeAndDate(date)
         then:
             response != null
+            !response.isEmpty()
+            response.first() instanceof RemoteFundStatus
     }
 
 }

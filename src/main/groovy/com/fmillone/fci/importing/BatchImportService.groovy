@@ -2,7 +2,7 @@ package com.fmillone.fci.importing
 
 import com.fmillone.fci.config.JobCompletionNotificationListener
 import com.fmillone.fci.fundStatus.TrustStatus
-import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
+import com.fmillone.fci.importing.fundStatus.RemoteFundStatusService
 import com.fmillone.fci.importing.fundStatus.TrustStatusReader
 import groovy.transform.CompileStatic
 import org.springframework.batch.core.Job
@@ -32,7 +32,7 @@ class BatchImportService {
     @Autowired
     JobCompletionNotificationListener jobCompletionNotificationListener
     @Autowired
-    RemoteTrustStatusClient remoteTrustStatusClient
+    RemoteFundStatusService remoteFundStatusService
     @Autowired
     JobLauncher jobLauncher
 
@@ -45,7 +45,7 @@ class BatchImportService {
 
 
     Job importTrustStatusJob() {
-        return jobBuilderFactory.get("importTrustStatuses")
+        return jobBuilderFactory.get('importTrustStatuses')
                 .listener(jobCompletionNotificationListener)
                 .flow(importFundStatusesStep)
                 .end()
@@ -54,14 +54,14 @@ class BatchImportService {
 
     TrustStatusReader getTrustStatusReader() {
             new TrustStatusReader(
-                remoteTrustStatusClient: remoteTrustStatusClient,
+                service: remoteFundStatusService,
                 currentDate: LocalDate.parse('2017-01-02'),
                 to: today
         )
     }
 
     Step getImportFundStatusesStep() {
-        return stepBuilderFactory.get("import fund statuses")
+        return stepBuilderFactory.get('import fund statuses')
                 .<TrustStatus, TrustStatus> chunk(10)
                 .reader(trustStatusReader)
                 .writer(repositoryItemWriter)

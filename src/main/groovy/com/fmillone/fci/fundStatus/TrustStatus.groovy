@@ -20,7 +20,7 @@ class TrustStatus {
     String Horiz
     LocalDate date
     Long amountOfPieces
-    Long totalValue
+    Double totalValue
     Double valuesPerUnity
 
 

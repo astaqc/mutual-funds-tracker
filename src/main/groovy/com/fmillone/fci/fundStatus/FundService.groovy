@@ -23,9 +23,9 @@ class FundService {
         repository.findAllByDateGreaterThan(date)
     }
 
-    Gain calculateGain(String name, Double start, LocalDate since) {
+    Gain calculateGain(String name, Double start, LocalDate since, LocalDate to = today) {
         TrustStatus old = getByNameAndNearDate(name, since)
-        TrustStatus last = getByNameAndNearDate(name, today)
+        TrustStatus last = getByNameAndNearDate(name, to)
 
         new Gain(start, getPercentGain(old, last))
     }

@@ -1,8 +1,8 @@
 package com.fmillone.fci.fundStatus
 
+import com.fmillone.fci.importing.fundStatus.RemoteFundStatus
+import com.fmillone.fci.importing.fundStatus.RemoteFundStatusService
 import com.fmillone.fci.importing.fundStatus.TrustStatusReader
-import com.fmillone.fci.importing.fundStatus.RemoteTrustStatusClient
-import groovy.util.slurpersupport.GPathResult
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -13,12 +13,12 @@ import static com.fmillone.fci.utils.DateUtils.aDayBefore
 class TrustStatusReaderSpec extends Specification {
 
     TrustStatusReader reader
-    RemoteTrustStatusClient client
+    RemoteFundStatusService client
 
     void setup() {
-        client = Mock(RemoteTrustStatusClient)
+        client = Mock(RemoteFundStatusService)
         reader = new TrustStatusReader(
-                remoteTrustStatusClient: client
+                service: client
         )
     }
 
@@ -26,22 +26,14 @@ class TrustStatusReaderSpec extends Specification {
     void cleanup() {
     }
 
-    GPathResult getResponse() {
-        new XmlSlurper().parseText('''
-<Coleccion>
-    <Datos>
-        <Dato>
-            <Nombre>Consultatio Renta Variable - Clase B</Nombre>
-            <Fecha>06/10/2017</Fecha>
-            <Horiz>Lar   </Horiz>
-            <VCP>16.074,503</VCP>
-            <QCP>24.386.920</QCP>
-            <PN>392.007.619</PN>
-            <Espacios>3</Espacios>
-        </Dato>
-    </Datos>
-</Coleccion>
-''')
+    List<RemoteFundStatus> getResponse() {
+        [new RemoteFundStatus(
+                fondo: 'Consultatio Renta Variable - Clase B',
+                horizonte: 'Lar',
+                cpp: 24386920L,
+                patrimonio: 392007619.1,
+                vcp: 16074.503
+        )]
     }
 
     void "it should parse a date with spanish format"() {
@@ -54,11 +46,11 @@ class TrustStatusReaderSpec extends Specification {
         when:
             TrustStatus trustStatus = reader.read()
         then:
-            1 * client.fetch(someWednesday) >> response
+            1 * client.fetchByTypeAndDate(someWednesday) >> response
         and:
             trustStatus.valuesPerUnity.toString() == '16074.503'
             trustStatus.name == 'Consultatio Renta Variable - Clase B'
-            trustStatus.totalValue == 392007619L
+            trustStatus.totalValue == 392007619.1
             trustStatus.amountOfPieces == 24386920L
             trustStatus.date == someWednesday
     }
@@ -71,11 +63,14 @@ class TrustStatusReaderSpec extends Specification {
                 currentDate = aDayBefore someWednesday
             }
         when:
-            assert reader.read()
-            assert reader.read()
+            TrustStatus fistCall = reader.read()
+            TrustStatus secondCall = reader.read()
         then:
-            1 * client.fetch(aDayBefore(someWednesday)) >> response
-            1 * client.fetch(someWednesday) >> response
+            1 * client.fetchByTypeAndDate(aDayBefore(someWednesday)) >> response
+            1 * client.fetchByTypeAndDate(someWednesday) >> response
+        and:
+            fistCall != null
+            secondCall != null
 
     }
 }

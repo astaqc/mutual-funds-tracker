@@ -26,6 +26,7 @@ repositories {
 ext{
     spockVersion = '1.1-groovy-2.4'
     okhttpVersion = '3.9.0'
+    retrofitVersion = '2.3.0'
     springfoxVersion = '2.7.0'
 }
 
@@ -36,8 +37,11 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.codehaus.groovy:groovy-all'
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     compile "io.springfox:springfox-swagger2:$springfoxVersion"
     compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
 
@@ -63,4 +67,11 @@ task stage(type: Copy, dependsOn: [clean, build]) {
         'app.jar'
     }
     mustRunAfter clean
+}
+
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(':jacocoTestReport')) {
+        println 'Disabling groovy optimizations'
+        compileGroovy.groovyOptions.optimizationOptions.all = false
+    }
 }

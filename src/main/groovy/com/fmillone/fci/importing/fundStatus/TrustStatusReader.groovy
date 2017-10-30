@@ -1,11 +1,8 @@
 package com.fmillone.fci.importing.fundStatus
 
 import com.fmillone.fci.fundStatus.TrustStatus
-import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
-import groovy.util.slurpersupport.GPathResult
-import groovy.util.slurpersupport.Node
-import groovy.util.slurpersupport.NodeChildren
+import groovy.util.logging.Log4j
 import org.springframework.batch.item.ItemReader
 import org.springframework.batch.item.NonTransientResourceException
 import org.springframework.batch.item.ParseException
@@ -13,56 +10,54 @@ import org.springframework.batch.item.UnexpectedInputException
 
 import java.time.LocalDate
 
-import static com.fmillone.fci.importing.fundStatus.FundStatusExtractor.extract
-import static com.fmillone.fci.utils.DateUtils.isWeekend
-import static com.fmillone.fci.utils.DateUtils.nextWeekday
-import static com.fmillone.fci.utils.DateUtils.previousWeekday
+import static com.fmillone.fci.utils.DateUtils.*
 
 @CompileStatic
+@Log4j
 class TrustStatusReader implements ItemReader<TrustStatus> {
 
-
-    private static final String HORIZ_DEFAULT_VALUE = 'N'
-    private static final int HORIZ_KEY = 2
-
-    RemoteTrustStatusClient remoteTrustStatusClient
+    RemoteFundStatusService service
     LocalDate currentDate
     LocalDate to = LocalDate.now()
-    Iterator<Node> rawTrustStatuses
+    Iterator<RemoteFundStatus> rawTrustStatuses
 
     @Override
     TrustStatus read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-        if (currentDate > to) {
-            return null
-        }
 
         if (shouldGetNextBatch()) {
             fetchNextBatch()
         }
+        return areDatesValid() ? findNextTrustStatus() : null
+    }
 
-        return findNextTrustStatus()
+    private boolean areDatesInvalid() {
+        currentDate > to
     }
 
     private boolean shouldGetNextBatch() {
-        rawTrustStatuses == null || !rawTrustStatuses.hasNext()
+        areDatesValid() && (rawTrustStatuses == null || !rawTrustStatuses.hasNext())
+    }
+
+    private boolean areDatesValid() {
+        !areDatesInvalid()
     }
 
     private TrustStatus findNextTrustStatus() {
-        List<Node> row = rawTrustStatuses.next().children()
-        while (!isValid(row)) {
-            row = rawTrustStatuses.next().children()
+        RemoteFundStatus fundStatus = rawTrustStatuses.next()
+        while (!fundStatus.isValid()) {
+            fundStatus = rawTrustStatuses.next()
         }
-        return extract(row, currentDate)
-    }
-
-    private static boolean isValid(List<Node> row) {
-        row[HORIZ_KEY].text() != HORIZ_DEFAULT_VALUE
+        return fundStatus.toTrustStatus(currentDate)
     }
 
     private void fetchNextBatch() {
         updateCurrentDate()
-        GPathResult response = remoteTrustStatusClient.fetch(currentDate)
-        setRawTrustStatuses(response)
+        List response = service.fetchByTypeAndDate(currentDate)
+        rawTrustStatuses = response.iterator()
+        if(shouldGetNextBatch()){
+            log.warn "no data for day $currentDate"
+            fetchNextBatch()
+        }
     }
 
     private void updateCurrentDate() {
@@ -77,8 +72,4 @@ class TrustStatusReader implements ItemReader<TrustStatus> {
         to = isWeekend(date) ? previousWeekday(date) : date
     }
 
-    @CompileDynamic
-    void setRawTrustStatuses(GPathResult response) {
-        this.rawTrustStatuses = ((NodeChildren) response.Datos).childNodes()
-    }
 }
