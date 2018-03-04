@@ -48,7 +48,7 @@ class TrustStatusReaderSpec extends Specification {
         then:
             1 * client.fetchByTypeAndDate(someWednesday) >> response
         and:
-            trustStatus.valuesPerUnity.toString() == '16074.503'
+            trustStatus.unitaryValue.toString() == '16074.503'
             trustStatus.name == 'Consultatio Renta Variable - Clase B'
             trustStatus.totalValue == 392007619.1
             trustStatus.amountOfPieces == 24386920L

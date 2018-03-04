@@ -10,7 +10,7 @@ class FundStatusFixture {
                 Horiz: params.get('Horiz', 'P'),
                 totalValue: params.get('totalValue', 1000.0),
                 amountOfPieces: params.get('amountOfPieces', 1000L),
-                valuesPerUnity: params.get('valuesPerUnity', 10.5D),
+                unitaryValue: params.get('unitaryValue', 10.5D),
                 date: params.get('date', LocalDate.now())
         )
     }
@@ -20,7 +20,7 @@ class FundStatusFixture {
     }
 
     static TrustStatus getSomeOtherFundStatus(){
-        return from(valuesPerUnity: 12.0D)
+        return from(unitaryValue: 12.0D)
     }
 
 }

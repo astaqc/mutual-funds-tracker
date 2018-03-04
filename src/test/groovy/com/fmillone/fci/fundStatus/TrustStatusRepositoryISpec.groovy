@@ -42,7 +42,7 @@ class TrustStatusRepositoryISpec extends Specification {
                     Horiz: 'P',
                     amountOfPieces: 1000L,
                     totalValue: 1000L,
-                    valuesPerUnity: 10.5D
+                    unitaryValue: 10.5D
             )
         when:
             TrustStatus saved = repository.save(trustStatus).get()
@@ -54,7 +54,7 @@ class TrustStatusRepositoryISpec extends Specification {
             saved.Horiz == 'P'
             saved.amountOfPieces == 1000L
             saved.totalValue == 1000L
-            saved.valuesPerUnity == 10.5D
+            saved.unitaryValue == 10.5D
 
     }
 
@@ -65,10 +65,9 @@ class TrustStatusRepositoryISpec extends Specification {
             }
             LocalDate treeDaysAgo = today.minusDays(3)
         when:
-            Optional<List> optional = repository.findAllByDateGreaterThan(treeDaysAgo)
+            List<TrustStatus> fundStatuses = repository.findAllByDateGreaterThan(treeDaysAgo)
         then:
-            optional.isPresent()
-            List fundStatuses = optional.get()
+            fundStatuses != null
             fundStatuses.size() == 3
     }
 }

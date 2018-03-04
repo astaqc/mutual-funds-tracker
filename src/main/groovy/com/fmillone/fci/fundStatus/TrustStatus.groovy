@@ -21,7 +21,10 @@ class TrustStatus {
     LocalDate date
     Long amountOfPieces
     Double totalValue
-    Double valuesPerUnity
+    Double unitaryValue
+    String currency
+    RentType rentType
+
 
 
 }

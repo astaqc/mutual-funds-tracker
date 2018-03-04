@@ -2,14 +2,14 @@ define(['Dataset'], function (Dataset) {
 
 
     function toValuePerUnity(item) {
-        return item.valuesPerUnity / 1000;
+        return item.unitaryValue / 1000;
     }
 
     function toPercentage() {
         let previous;
         return item => {
-            const result = previous ? (item.valuesPerUnity / previous - 1) * 100 : 0;
-            previous = item.valuesPerUnity;
+            const result = previous ? (item.unitaryValue / previous - 1) * 100 : 0;
+            previous = item.unitaryValue;
             return result;
         }
     }

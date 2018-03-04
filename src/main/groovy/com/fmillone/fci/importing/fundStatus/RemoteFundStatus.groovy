@@ -26,7 +26,7 @@ class RemoteFundStatus {
                 name: fondo,
                 Horiz: horizonte,
                 totalValue: patrimonio,
-                valuesPerUnity: vcp,
+                unitaryValue: vcp,
                 amountOfPieces: cpp
         )
     }

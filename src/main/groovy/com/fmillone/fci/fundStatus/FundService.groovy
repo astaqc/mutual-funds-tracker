@@ -18,7 +18,6 @@ class FundService {
     @Autowired
     TrustStatusRepository repository
 
-
     List<TrustStatus> getAllByDateGreaterThan(LocalDate date) {
         repository.findAllByDateGreaterThan(date)
     }
@@ -31,7 +30,7 @@ class FundService {
     }
 
     private static double getPercentGain(TrustStatus old, TrustStatus last) {
-        (last.valuesPerUnity - old.valuesPerUnity) * 100 / old.valuesPerUnity
+        (last.unitaryValue - old.unitaryValue) * 100 / old.unitaryValue
     }
 
 

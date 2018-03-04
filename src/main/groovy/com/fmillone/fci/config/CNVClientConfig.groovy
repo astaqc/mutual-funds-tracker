@@ -1,6 +1,6 @@
 package com.fmillone.fci.config
 
-import com.fmillone.fci.importing.fundStatus.RemoteFundStatusRestClient
+import com.fmillone.fci.importing.fundStatus.CNVFundStatusClient
 import groovy.transform.CompileStatic
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,28 +8,27 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
 
-import static okhttp3.logging.HttpLoggingInterceptor.Level.*
+import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY
 
 @CompileStatic
 @Configuration
-class RetrofitConfig {
+class CNVClientConfig {
 
-    @Value('${cafci.api.url}')
-    final String cafciBaseUrl
+    @Value('${cnv.api.url}')
+    final String cnvBaseUrl
 
     @Bean
-    RemoteFundStatusRestClient remoteFundStatusRestClient() {
+    CNVFundStatusClient cnvFundStatusClient() {
         new Retrofit.Builder()
-                .baseUrl("http://$cafciBaseUrl/")
+                .baseUrl("http://$cnvBaseUrl/")
                 .client(client)
-                .addConverterFactory(JacksonConverterFactory.create())
                 .build()
-                .create(RemoteFundStatusRestClient)
+                .create(CNVFundStatusClient)
     }
 
-    private static OkHttpClient getClient() {
+    @Bean
+    OkHttpClient getClient() {
         new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor(level: BODY))
                 .build()

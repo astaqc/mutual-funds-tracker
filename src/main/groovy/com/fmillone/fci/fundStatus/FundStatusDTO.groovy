@@ -12,7 +12,9 @@ class FundStatusDTO {
     Date date
     Long amountOfPieces
     Long totalValue
-    Double valuesPerUnity
+    Double unitaryValue
+    String currency
+    RentType rentType
 
     static FundStatusDTO from(TrustStatus trustStatus) {
         new FundStatusDTO(
@@ -22,7 +24,9 @@ class FundStatusDTO {
                 date: extractDate(trustStatus),
                 amountOfPieces: trustStatus.amountOfPieces,
                 totalValue: trustStatus.totalValue,
-                valuesPerUnity: trustStatus.valuesPerUnity
+                unitaryValue: trustStatus.unitaryValue,
+                currency: trustStatus.currency,
+                rentType: trustStatus.rentType
         )
     }
 

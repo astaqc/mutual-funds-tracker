@@ -15,7 +15,7 @@ class BatchController {
 
     @GetMapping( value = '/startJob')
     String startJob(){
-        batchImportService.start()
+        batchImportService.startImportFromCafci()
         return 'started ' + new Date().toString()
     }
 
