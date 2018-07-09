@@ -24,7 +24,7 @@ class TrustStatusReaderISpec extends Specification {
     void setup(){
         reader = new TrustStatusReader(
                 service: remoteFundStatusService,
-                currentDate: LocalDate.parse('2017-01-01'),
+                currentDate: LocalDate.parse('2017-09-01'),
                 to: today
         )
     }

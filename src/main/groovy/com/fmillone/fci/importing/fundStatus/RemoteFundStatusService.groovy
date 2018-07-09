@@ -8,12 +8,11 @@ import java.time.LocalDate
 import static com.fmillone.fci.importing.fundStatus.RemoteFundStatusRestClient.VARIABLE_RENT
 
 @Service
-class RemoteFundStatusService implements RemoteFundStatusClient {
+class RemoteFundStatusService {
 
     @Autowired
     RemoteFundStatusRestClient client
 
-    @Override
     List<RemoteFundStatus> fetchByTypeAndDate(int type = VARIABLE_RENT,LocalDate date) {
         client.fetch(type, date)
                 .execute()

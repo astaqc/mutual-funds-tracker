@@ -19,18 +19,16 @@ import org.springframework.core.task.TaskExecutor
 class BatchConfiguration {
 
     @Bean
-    RepositoryItemWriter<TrustStatus> repositoryItemWriter(TrustStatusRepository trustStatusRepository){
-        RepositoryItemWriter<TrustStatus> writer = new RepositoryItemWriter<>()
-        writer.with {
-            methodName = 'save'
-            repository = trustStatusRepository
-        }
-        return writer
+    RepositoryItemWriter<TrustStatus> repositoryItemWriter(TrustStatusRepository trustStatusRepository) {
+        new RepositoryItemWriter<>(
+                methodName: 'save',
+                repository: trustStatusRepository
+        )
     }
 
     @Bean
     JobLauncher jobLauncher(TaskExecutor taskExecutor,
-                            JobRepository jobRepository){
+                            JobRepository jobRepository) {
         new SimpleJobLauncher(
                 taskExecutor: taskExecutor,
                 jobRepository: jobRepository
@@ -38,7 +36,7 @@ class BatchConfiguration {
     }
 
     @Bean
-    TaskExecutor taskExecutor(){
+    TaskExecutor taskExecutor() {
         new SimpleAsyncTaskExecutor()
     }
 

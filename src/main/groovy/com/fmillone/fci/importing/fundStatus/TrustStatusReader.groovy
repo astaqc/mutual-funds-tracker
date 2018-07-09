@@ -1,8 +1,9 @@
 package com.fmillone.fci.importing.fundStatus
 
+import com.fmillone.fci.fundStatus.RentType
 import com.fmillone.fci.fundStatus.TrustStatus
 import groovy.transform.CompileStatic
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.batch.item.ItemReader
 import org.springframework.batch.item.NonTransientResourceException
 import org.springframework.batch.item.ParseException
@@ -12,14 +13,16 @@ import java.time.LocalDate
 
 import static com.fmillone.fci.utils.DateUtils.*
 
+@Slf4j
 @CompileStatic
-@Log4j
 class TrustStatusReader implements ItemReader<TrustStatus> {
 
     RemoteFundStatusService service
+    LocalDate to
+    RentType rentType
     LocalDate currentDate
-    LocalDate to = LocalDate.now()
-    Iterator<RemoteFundStatus> rawTrustStatuses
+
+    private Iterator<RemoteFundStatus> rawTrustStatuses
 
     @Override
     TrustStatus read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
@@ -47,14 +50,14 @@ class TrustStatusReader implements ItemReader<TrustStatus> {
         while (!fundStatus.isValid()) {
             fundStatus = rawTrustStatuses.next()
         }
-        return fundStatus.toTrustStatus(currentDate)
+        return fundStatus.toTrustStatus(currentDate, rentType)
     }
 
     private void fetchNextBatch() {
         updateCurrentDate()
-        List response = service.fetchByTypeAndDate(currentDate)
+        List response = service.fetchByTypeAndDate(rentType.code, currentDate)
         rawTrustStatuses = response.iterator()
-        if(shouldGetNextBatch()){
+        if (shouldGetNextBatch()) {
             log.warn "no data for day $currentDate"
             fetchNextBatch()
         }

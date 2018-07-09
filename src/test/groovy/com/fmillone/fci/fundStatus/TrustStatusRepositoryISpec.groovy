@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory
 import org.hibernate.StatelessSession
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
@@ -14,6 +15,7 @@ import static com.fmillone.fci.fundStatus.FundStatusFixture.from
 import static com.fmillone.fci.utils.DateUtils.today
 
 @SpringBootTest(classes = [FciApplication])
+@EnableJpaRepositories
 @Transactional
 class TrustStatusRepositoryISpec extends Specification {
 

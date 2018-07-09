@@ -18,7 +18,8 @@ class TrustStatusReaderSpec extends Specification {
     void setup() {
         client = Mock(RemoteFundStatusService)
         reader = new TrustStatusReader(
-                service: client
+                service: client,
+                rentType: RentType.VARIABLE
         )
     }
 
@@ -46,13 +47,14 @@ class TrustStatusReaderSpec extends Specification {
         when:
             TrustStatus trustStatus = reader.read()
         then:
-            1 * client.fetchByTypeAndDate(someWednesday) >> response
+            1 * client.fetchByTypeAndDate(RentType.VARIABLE.code, someWednesday) >> response
         and:
             trustStatus.unitaryValue.toString() == '16074.503'
             trustStatus.name == 'Consultatio Renta Variable - Clase B'
             trustStatus.totalValue == 392007619.1
             trustStatus.amountOfPieces == 24386920L
             trustStatus.date == someWednesday
+            trustStatus.rentType == RentType.VARIABLE
     }
 
     void "it should fetch the data within the specified dates"() {
@@ -66,8 +68,8 @@ class TrustStatusReaderSpec extends Specification {
             TrustStatus fistCall = reader.read()
             TrustStatus secondCall = reader.read()
         then:
-            1 * client.fetchByTypeAndDate(aDayBefore(someWednesday)) >> response
-            1 * client.fetchByTypeAndDate(someWednesday) >> response
+            1 * client.fetchByTypeAndDate(RentType.VARIABLE.code, aDayBefore(someWednesday)) >> response
+            1 * client.fetchByTypeAndDate(RentType.VARIABLE.code, someWednesday) >> response
         and:
             fistCall != null
             secondCall != null

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.7.RELEASE'
+        springBootVersion = '2.0.3.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -11,9 +11,10 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
+apply from: 'gradle/dependencies.gradle'
 
 group = 'com.fmillone'
 version = '0.0.1-SNAPSHOT'
@@ -21,13 +22,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-}
-
-ext{
-    spockVersion = '1.1-groovy-2.4'
-    okhttpVersion = '3.9.0'
-    retrofitVersion = '2.3.0'
-    springfoxVersion = '2.7.0'
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
 }
 
 dependencies {
@@ -35,31 +30,28 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-batch'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter'
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.codehaus.groovy:groovy-all'
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttpVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile "io.springfox:springfox-swagger2:$springfoxVersion"
-    compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
-    compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
-    compile 'org.apache.poi:poi:3.17'
-
+    compile 'com.squareup.retrofit2:retrofit'
+    compile 'com.squareup.retrofit2:converter-jackson'
+    compile 'com.squareup.okhttp3:okhttp'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection'
+    compile 'com.squareup.okhttp3:logging-interceptor'
+    compile 'io.springfox:springfox-swagger2'
+    compile 'io.springfox:springfox-swagger-ui'
 
     runtime 'com.h2database:h2'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile "org.spockframework:spock-core:$spockVersion"
+    testCompile 'org.spockframework:spock-core'
     testCompile 'cglib:cglib-nodep:3.2.5'
-    testCompile "org.spockframework:spock-spring:$spockVersion"
-
+    testCompile 'org.spockframework:spock-spring'
 
 }
 
 bootRun {
-    addResources = true
+    sourceResources sourceSets.main
 }
 
 task stage(type: Copy, dependsOn: [clean, build]) {

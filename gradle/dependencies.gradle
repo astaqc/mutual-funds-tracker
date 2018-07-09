@@ -1,0 +1,36 @@
+
+
+dependencyManagement {
+    dependencies {
+        dependencySet(group: 'org.codehaus.groovy', version: '3.0.0-alpha-3'){
+            entry 'groovy'
+            entry 'groovy-all'
+            entry 'groovy-groovydoc'
+            entry 'groovy-ant'
+            entry 'groovy-testing'
+            entry 'groovy-test'
+            entry 'groovy-*'
+        }
+
+        dependencySet(group: 'com.squareup.okhttp3', version: '3.9.0'){
+            entry 'okhttp'
+            entry 'okhttp-urlconnection'
+            entry 'logging-interceptor'
+        }
+
+        dependencySet(group: 'com.squareup.retrofit2', version: '2.3.0'){
+            entry 'retrofit'
+            entry 'converter-jackson'
+        }
+
+        dependencySet(group: 'org.spockframework', version: '1.2-groovy-2.5-SNAPSHOT'){
+            entry 'spock-core'
+            entry 'spock-spring'
+        }
+
+        dependencySet(group: 'io.springfox', version: '2.7.0'){
+            entry 'springfox-swagger2'
+            entry 'springfox-swagger-ui'
+        }
+    }
+}

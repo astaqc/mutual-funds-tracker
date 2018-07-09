@@ -11,6 +11,7 @@ import java.time.LocalDate
 interface RemoteFundStatusRestClient {
 
     static final int VARIABLE_RENT = 2
+    static final int FIX_RENT = 3
 
     @GET('estadisticas/informacion/diaria/{type}/{date}')
     Call<AllFundStatusResponse> fetch(@Path('type') type, @Path('date') LocalDate date)

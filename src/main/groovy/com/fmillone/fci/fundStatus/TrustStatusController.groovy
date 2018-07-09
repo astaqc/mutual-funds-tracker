@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-import javax.xml.ws.Service
-
 import static com.fmillone.fci.utils.DateUtils.amonthAgo
 import static com.fmillone.fci.utils.DateUtils.toLocalDate
 
@@ -24,14 +22,14 @@ class TrustStatusController {
     List<FundStatusDTO> getLastMonth() {
         fundService
                 .getAllByDateGreaterThan(amonthAgo)
-                .collect(FundStatusDTO.&from)
+                .collect(FundStatusDTO::from)
     }
 
     @GetMapping(value = '/since')
     List<FundStatusDTO> getSince(@RequestParam Date date) {
         fundService
                 .getAllByDateGreaterThan(toLocalDate(date))
-                .collect(FundStatusDTO.&from)
+                .collect(FundStatusDTO::from)
     }
 
     @GetMapping(value = '/gain')
@@ -39,6 +37,4 @@ class TrustStatusController {
         fundService
                 .calculateGain(fundName, initialInvestment, toLocalDate(since))
     }
-
-
 }

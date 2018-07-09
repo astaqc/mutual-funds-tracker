@@ -1,6 +1,7 @@
 package com.fmillone.fci.importing.fundStatus
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fmillone.fci.fundStatus.RentType
 import com.fmillone.fci.fundStatus.TrustStatus
 import groovy.transform.CompileStatic
 
@@ -20,14 +21,15 @@ class RemoteFundStatus {
         horizonte != null
     }
 
-    TrustStatus toTrustStatus(LocalDate localDate) {
+    TrustStatus toTrustStatus(LocalDate localDate, RentType rentType) {
         new TrustStatus(
                 date: localDate,
                 name: fondo,
                 Horiz: horizonte,
                 totalValue: patrimonio,
                 unitaryValue: vcp,
-                amountOfPieces: cpp
+                amountOfPieces: cpp,
+                rentType: rentType
         )
     }
 }
