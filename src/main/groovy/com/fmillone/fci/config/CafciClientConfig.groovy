@@ -16,13 +16,13 @@ import static okhttp3.logging.HttpLoggingInterceptor.Level.*
 @Configuration
 class CafciClientConfig {
 
-    @Value('${cafci.api.url}')
+    @Value('http://${cafci.api.url}/')
     final String cafciBaseUrl
 
     @Bean
     RemoteFundStatusRestClient remoteFundStatusRestClient() {
         new Retrofit.Builder()
-                .baseUrl("http://$cafciBaseUrl/")
+                .baseUrl(cafciBaseUrl)
                 .client(client)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build()

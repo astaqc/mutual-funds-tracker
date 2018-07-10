@@ -1,12 +1,12 @@
 package com.fmillone.fci.fundStatus
 
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 import java.time.LocalDate
 
 @Repository
-interface TrustStatusRepository extends CrudRepository<TrustStatus, Long> {
+interface TrustStatusRepository extends JpaRepository<TrustStatus, Long> {
 
     Optional<TrustStatus> save(TrustStatus status)
 

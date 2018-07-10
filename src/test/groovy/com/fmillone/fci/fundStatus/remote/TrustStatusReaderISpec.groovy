@@ -1,6 +1,7 @@
 package com.fmillone.fci.fundStatus.remote
 
 import com.fmillone.fci.FciApplication
+import com.fmillone.fci.fundStatus.RentType
 import com.fmillone.fci.fundStatus.TrustStatus
 import com.fmillone.fci.importing.fundStatus.RemoteFundStatusService
 import com.fmillone.fci.importing.fundStatus.TrustStatusReader
@@ -12,7 +13,7 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static com.fmillone.fci.utils.DateUtils.today
+import static com.fmillone.fci.utils.DateUtils.nextWeekday
 
 @SpringBootTest(classes = FciApplication)
 class TrustStatusReaderISpec extends Specification {
@@ -21,11 +22,13 @@ class TrustStatusReaderISpec extends Specification {
     @Autowired
     RemoteFundStatusService remoteFundStatusService
 
-    void setup(){
+    void setup() {
+        LocalDate startDate = LocalDate.parse('2017-09-01')
         reader = new TrustStatusReader(
                 service: remoteFundStatusService,
-                currentDate: LocalDate.parse('2017-09-01'),
-                to: today
+                currentDate: startDate,
+                to: nextWeekday(startDate),
+                rentType: RentType.VARIABLE
         )
     }
 

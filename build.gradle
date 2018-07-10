@@ -22,7 +22,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {
@@ -57,9 +57,7 @@ bootRun {
 task stage(type: Copy, dependsOn: [clean, build]) {
     from jar.archivePath
     into project.rootDir
-    rename {
-        'app.jar'
-    }
+    rename { 'app.jar' }
     mustRunAfter clean
 }
 

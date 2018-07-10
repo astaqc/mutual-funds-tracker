@@ -19,14 +19,6 @@ import org.springframework.core.task.TaskExecutor
 class BatchConfiguration {
 
     @Bean
-    RepositoryItemWriter<TrustStatus> repositoryItemWriter(TrustStatusRepository trustStatusRepository) {
-        new RepositoryItemWriter<>(
-                methodName: 'save',
-                repository: trustStatusRepository
-        )
-    }
-
-    @Bean
     JobLauncher jobLauncher(TaskExecutor taskExecutor,
                             JobRepository jobRepository) {
         new SimpleJobLauncher(

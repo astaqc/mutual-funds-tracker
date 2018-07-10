@@ -32,7 +32,7 @@ class SwaggerConfig {
                 .paths(paths)
                 .build()
                 .apiInfo(apiInfo)
-                .pathMapping("/")
+                .pathMapping('/')
                 .directModelSubstitute(LocalDate, String)
                 .genericModelSubstitutes(ResponseEntity)
                 .alternateTypeRules(alternateRule)
@@ -43,7 +43,8 @@ class SwaggerConfig {
 
     private static Predicate<String> getPaths() {
         or regex('/api.*'),
-                regex('/startJob')
+                regex('/startJob'),
+                regex('/importStatus')
     }
 
     private AlternateTypeRule getAlternateRule() {

@@ -3,7 +3,6 @@ package com.fmillone.fci.importing
 import com.fmillone.fci.config.JobCompletionNotificationListener
 import com.fmillone.fci.fundStatus.RentType
 import com.fmillone.fci.fundStatus.TrustStatus
-import com.fmillone.fci.importing.fundStatus.RemoteFundStatusService
 import com.fmillone.fci.importing.fundStatus.TrustStatusReader
 import groovy.transform.CompileStatic
 import org.springframework.batch.core.Job
@@ -35,9 +34,8 @@ class BatchImportService {
     @Autowired
     JobCompletionNotificationListener jobCompletionNotificationListener
     @Autowired
-    RemoteFundStatusService remoteFundStatusService
-    @Autowired
     JobLauncher jobLauncher
+
     @Autowired @StepScope
     TrustStatusReader trustStatusReader
 

@@ -15,9 +15,3 @@ spring:
 cafci:
   api:
     url: api.cafci.org.ar
-
----
-
-cnv:
-  api:
-    url: www.cnv.gob.ar

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
+import javax.persistence.EntityManager
+import javax.persistence.EntityManagerFactory
 import java.time.LocalDate
 
 import static com.fmillone.fci.fundStatus.FundStatusFixture.from
@@ -23,17 +25,12 @@ class TrustStatusRepositoryISpec extends Specification {
     TrustStatusRepository repository
 
     @Autowired
-    SessionFactory sessionFactory
+    EntityManager entityManager
 
-    void setup() {
-
-    }
-
+    @Transactional
     void cleanup() {
-        StatelessSession session = sessionFactory.openStatelessSession()
-        session.createQuery('delete from TrustStatus')
+        entityManager.createQuery('delete from TrustStatus')
                 .executeUpdate()
-        session.close()
     }
 
     void "it should save a fund status"() {
