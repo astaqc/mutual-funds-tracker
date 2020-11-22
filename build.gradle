@@ -46,7 +46,7 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.spockframework:spock-core'
     testCompile 'cglib:cglib-nodep:3.2.5'
-    testCompile 'org.spockframework:spock-spring'
+    //testCompile 'org.spockframework:spock-spring'
 
 }
 
